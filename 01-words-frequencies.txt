@@ -1,0 +1,72 @@
+
+Write a  shell script that reads a text file and generates a list of words along with their frequencies. 
+Bonus points for sorting the list by frequency. 
+=========================================================================================================================================================
+
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <input_file>"
+    exit 1
+fi
+
+input_file="$1"
+
+if [ ! -f "$input_file" ]; then
+    echo "File not found: $input_file"
+    exit 1
+fi
+
+# Use tr to convert all text to lowercase and replace non-alphanumeric characters with spaces.
+# Then use tr to squeeze multiple spaces into one space, and sort the words.
+# Finally, use uniq -c to count the occurrences of each unique word and sort by frequency.
+cat "$input_file" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' ' ' | tr -s ' ' | sort | uniq -c | sort -nr
+
+Here's a line-by-line explanation:
+
+
+#!/bin/bash
+This is the shebang line that indicates the script should be interpreted using the Bash shell.
+
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <input_file>"
+    exit 1
+fi
+
+This block of code checks if the script has been called with exactly one argument: the input file. If not, it prints a usage message and exits.
+
+
+input_file="$1"
+
+This line assigns the value of the first argument (the input filename) to the variable input_file.
+
+
+if [ ! -f "$input_file" ]; then
+    echo "File not found: $input_file"
+    exit 1
+fi
+
+This block of code checks if the specified input file exists (-f flag checks if it's a regular file). If the file doesn't exist, it prints an error message and exits.
+
+
+cat "$input_file" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' ' ' | tr -s ' ' | sort | uniq -c | sort -nr
+This is the main pipeline that processes the input file:
+
+cat "$input_file": This reads the content of the input file.
+
+tr '[:upper:]' '[:lower:]': This converts all text to lowercase.
+
+tr -cs '[:alnum:]' ' ': This replaces non-alphanumeric characters with spaces.
+
+tr -s ' ': This squeezes multiple spaces into one space.
+
+sort: This sorts the words alphabetically.
+
+uniq -c: This counts the occurrences of each unique word and prefixes each line with the count.
+
+sort -nr: This sorts the lines in reverse numeric order, which sorts the list by frequency (most frequent words first).
+
+The resulting output is a list of words along with their frequencies, sorted by frequency.
+
+Remember to make the script executable (chmod +x script_name.sh) and replace script_name.sh with the actual name of the script. You can run the script by providing the input file as an argument, like this: ./script_name.sh input_file.txt.

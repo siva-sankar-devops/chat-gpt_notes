@@ -1,0 +1,48 @@
+
+Develop a shell  script that takes a text file and replaces all occurrences of a specific word or phrase with another word or phrase. 
+=======================================================================================================================================
+
+#!/bin/bash
+This line is called a shebang. It specifies that the script should be interpreted using the Bash shell.
+
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <input_file> <old_word> <new_word>"
+    exit 1
+fi
+
+This block of code checks if the script has been called with exactly three arguments: the input file, the old word/phrase to replace, and the new word/phrase to use as a replacement. If the number of arguments is not 3, it prints a usage message with the script's name ($0) and exits with an exit code of 1.
+
+
+input_file="$1"
+old_word="$2"
+new_word="$3"
+
+These lines assign the values of the arguments to meaningful variable names. input_file stores the name of the input text file, old_word stores the word/phrase you want to replace, and new_word stores the word/phrase you want to use as the replacement.
+
+
+if [ ! -f "$input_file" ]; then
+    echo "File not found: $input_file"
+    exit 1
+fi
+
+This block of code checks if the specified input file exists (-f flag checks if it's a regular file). If the file doesn't exist, it prints an error message indicating that the file was not found and exits with an exit code of 1.
+
+
+output_file="modified_$input_file"
+
+This line constructs the name of the output file by prefixing "modified_" to the original input filename and assigns it to the variable output_file.
+
+
+
+sed "s/$old_word/$new_word/g" "$input_file" > "$output_file"
+
+This line uses the sed command to perform the actual text replacement. sed stands for "stream editor" and is used for text transformations. The expression "s/$old_word/$new_word/g" instructs sed to substitute all occurrences of $old_word with $new_word, and the g at the end means "global," replacing all occurrences on each line.
+
+The input for sed is the content of the $input_file, and the output is redirected (>) to the $output_file.
+
+
+echo "Replacement completed. Modified content saved to $output_file"
+
+After the replacement is done, this line prints a message indicating that the replacement is completed and the modified content has been saved to the output file.
+
+In summary, this script takes an input text file, replaces all occurrences of a specific word or phrase with another word or phrase, and saves the modified content to an output file.

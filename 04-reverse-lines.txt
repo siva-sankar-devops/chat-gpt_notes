@@ -1,0 +1,61 @@
+Develop a  shell script that reverses the order of characters in each line of a text file.?
+=============================================================================================
+
+#!/bin/bash
+This line is called a shebang. It indicates that the script should be interpreted using the Bash shell.
+
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+This block of code checks if the script has been called with exactly one argument (the filename). $# represents the number of arguments passed to the script. If the number of arguments is not equal to 1, the script prints a usage message with the script's name ($0) and exits with an exit code of 1.
+
+filename="$1"
+
+This line assigns the value of the first argument (the filename) to the variable filename.
+
+
+if [ ! -f "$filename" ]; then
+    echo "File not found: $filename"
+    exit 1
+fi
+
+This block of code checks if the file specified by the filename exists (-f flag checks if it's a regular file). If the file doesn't exist, the script prints an error message indicating that the file was not found and exits with an exit code of 1.
+
+
+output_file="reversed_$filename"
+
+This line constructs the name of the output file by prefixing "reversed_" to the original filename and assigns it to the variable output_file.
+
+
+while IFS= read -r line; do
+    reversed_line=$(echo "$line" | rev)
+    echo "$reversed_line"
+done < "$filename" > "$output_file"
+
+This is the main loop that reads each line from the input file, reverses it, and writes the reversed lines to the output file.
+
+while IFS= read -r line; do 
+
+This line starts a loop that reads each line from the input file. The IFS= part prevents leading/trailing spaces from being trimmed, and the -r flag prevents backslashes from being interpreted as escape characters.
+
+reversed_line=$(echo "$line" | rev)
+
+ This line uses the echo command to pass the current line to the rev command, which reverses the characters. The result is stored in the variable reversed_line.
+
+echo "$reversed_line"
+
+ This line prints the reversed line to the terminal.
+
+done < "$filename" > "$output_file"
+
+ This line marks the end of the loop and specifies that the loop should read from the input file ($filename) and write to the output file ($output_file).
+
+
+echo "Reversed lines written to $output_file"
+
+After the loop completes, this line prints a message indicating that the reversed lines have been written to the output file.
+
+In summary, the script checks for the correct number of arguments, validates the existence of the input file, reverses the lines of the input file, and writes the reversed lines to an output file.

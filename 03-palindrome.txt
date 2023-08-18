@@ -1,0 +1,67 @@
+PALINDRONE OR NOT:
+======================
+
+
+#!/bin/bash
+This line specifies that the script should be interpreted using the Bash shell.
+
+
+is_palindrome() {
+This line defines a function named is_palindrome.
+
+
+    local text="$1"
+This line assigns the first argument passed to the function to the variable text.
+
+
+    local cleaned_text=$(echo "$text" | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
+This line uses the echo command to pass the value of text to a pipeline. The first tr command (tr -d -c '[:alnum:]') deletes characters that are not alphanumeric from the input text, effectively removing non-alphanumeric characters. The second tr command (tr '[:upper:]' '[:lower:]') converts the input text to lowercase. The result is assigned to the variable cleaned_text.
+
+
+    local reversed_text=$(echo "$cleaned_text" | rev)
+This line reverses the value of cleaned_text using the rev command and assigns the result to the variable reversed_text.
+
+
+    if [ "$cleaned_text" = "$reversed_text" ]; then
+This line starts an if statement, checking if the value of cleaned_text is equal to the value of reversed_text.
+
+
+        echo "Palindrome"
+If the condition of the if statement is true, this line prints "Palindrome".
+
+
+    else
+If the condition of the if statement is false, the script continues with this else statement.
+
+
+        echo "Not a palindrome"
+This line prints "Not a palindrome".
+
+
+    fi
+This line marks the end of the if statement.
+
+
+}
+This line marks the end of the is_palindrome function definition.
+
+
+echo -n "Enter a word or phrase: "
+This line prints the prompt "Enter a word or phrase: " without a trailing newline.
+
+
+read word_or_phrase
+This line reads input from the user and assigns it to the variable word_or_phrase.
+
+
+result=$(is_palindrome "$word_or_phrase")
+This line calls the is_palindrome function with the value of word_or_phrase as an argument and stores the result in the variable result.
+
+echo "'$word_or_phrase' is $result."
+This line prints a message indicating whether the input is a palindrome or not based on the value of result.
+
+In summary, the script defines a function to check if a given input is a palindrome, takes user input, calls the function to determine if the input is a palindrome, and then provides the user with the result.
+
+
+
+
